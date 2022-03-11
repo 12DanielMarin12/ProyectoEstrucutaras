@@ -271,12 +271,14 @@ public class ListaDoble implements LinkedList {
             Node current = head;
             if(current.getObject()==object){
                 head = head.getNext();
+                head.setPrevius(null);
                 size--;
                 return true;
             }
             while(current.getNext()!=null){
                 if(current.getNext().getObject()==object){
                     current.setNext(current.getNext().getNext());
+                    current.getNext().getNext().setPrevius(current);
                     size--;
                     return true;
                 }
@@ -295,12 +297,14 @@ public class ListaDoble implements LinkedList {
             Node current = head;
             if(current.getObject()==node.getObject()){
                 head = head.getNext();
+                head.setPrevius(null);
                 size--;
                 return true;
             }
             while(current.getNext()!=null){
                 if(current.getNext().getObject()==node.getObject()){
                     current.setNext(current.getNext().getNext());
+                    current.getNext().getNext().setPrevius(current);
                     size--;
                     return true;
                 }
@@ -313,15 +317,43 @@ public class ListaDoble implements LinkedList {
 
     @Override
     public boolean removeAll(Object objects) {
-        head = null;
-        tail = null;
-        size = 0;
-        return true;
+        try {
+            if(isEmpty()){
+               return false;
+            }else{
+                Node current = head;
+                while(current!=null){ 
+                    if(current.getObject()==objects){
+                        remove(current);
+                    }
+                    current = current.getNext();
+                }
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    @Override//?!?!?!
+    @Override
     public boolean retainAll(Object objects) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            if(isEmpty()){
+               return false;
+            }else{
+                Node current = head;
+                while(current!=null){ 
+                    if(current.getObject()!=objects){
+                        remove(current);
+                        
+                    }
+                    current = current.getNext();
+                }
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
@@ -416,6 +448,7 @@ public class ListaDoble implements LinkedList {
         }
         return lista;
     }
+  
     public Node getHead() {
         return head;
     }

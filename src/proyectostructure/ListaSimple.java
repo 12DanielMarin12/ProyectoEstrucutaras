@@ -184,7 +184,8 @@ public class ListaSimple implements LinkedList{
 
     @Override
     public Object get(LinkedListNode node) {
-        int c = 0;
+        try {
+            int c = 0;
         if(isEmpty()){
             return null;
         }else{
@@ -198,11 +199,15 @@ public class ListaSimple implements LinkedList{
             }
         }
         return false;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public Object getPrevious(LinkedListNode node) {
-        if(isEmpty()){
+        try {
+            if(isEmpty()){
             return null;
         }else{
             Node current = head;
@@ -218,11 +223,15 @@ public class ListaSimple implements LinkedList{
             }
         }
         return null;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public Object getNext(LinkedListNode node) {
-        if(isEmpty()){
+        try {
+            if(isEmpty()){
             return null;
         }else{
             Node current = head;
@@ -238,6 +247,9 @@ public class ListaSimple implements LinkedList{
             }
         }
         return null;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
@@ -300,25 +312,54 @@ public class ListaSimple implements LinkedList{
 
     @Override
     public boolean removeAll(Object objects) {
-        head = null;
-        tail = null;
-        size = 0;
-        return true;
+        try {
+            if(isEmpty()){
+               return false;
+            }else{
+                Node current = head;
+                while(current!=null){ 
+                    if(current.getObject()==objects){
+                        remove(current);
+                    }
+                    current = current.getNext();
+                }
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    @Override//?!?!?!
+    @Override 
     public boolean retainAll(Object objects) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            if(isEmpty()){
+               return false;
+            }else{
+                Node current = head;
+                while(current!=null){ 
+                    if(current.getObject()!=objects){
+                        remove(current);
+                        
+                    }
+                    current = current.getNext();
+                }
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
     public boolean set(LinkedListNode node, Object object) {
-        if(isEmpty()){
+        try {
+            if(isEmpty()){
             return false;
         }else{
             Node current = head;
             while(current!=null){
-                if(current.getObject()==node.getObject()){
+                if(current==node){
                     current.setObject(object);
                     return true;
                 }
@@ -326,6 +367,9 @@ public class ListaSimple implements LinkedList{
             }
         }
         return false;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
@@ -335,7 +379,8 @@ public class ListaSimple implements LinkedList{
 
     @Override
     public LinkedList subList(LinkedListNode from, LinkedListNode to) {
-        if(isEmpty()){
+        try {
+            if(isEmpty()){
             return null;
         } 
         if(contains(from.getObject()) && contains(to.getObject())){ 
@@ -355,6 +400,9 @@ public class ListaSimple implements LinkedList{
             }
         }
         return null;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @Override
@@ -380,9 +428,10 @@ public class ListaSimple implements LinkedList{
         }
         return n;
     }
-    
+    @Override
     public String toString(){
-        Node current = head;
+        try {
+            Node current = head;
         String lista = "";
         
         while(current!=null){
@@ -390,33 +439,42 @@ public class ListaSimple implements LinkedList{
             current = current.getNext();
         }
         return lista;
+        } catch (Exception e) {
+            return "algo salio mal";
+        }
     }
 
+    @Override
     public Node getHead() {
         return head;
     }
 
+    @Override
     public void setHead(Node head) {
         this.head = head;
     }
 
+    @Override
     public Node getTail() {
         return tail;
     }
 
+    @Override
     public void setTail(Node tail) {
         this.tail = tail;
     }
 
+    @Override
     public int getSize() {
         return size;
     }
 
+    @Override
     public void setSize(int size) {
         this.size = size;
     }
 
-    @Override
+    @Override//no es para esta lista
     public String toStringReverse() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

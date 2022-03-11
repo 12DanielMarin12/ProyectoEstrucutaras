@@ -8,15 +8,24 @@ public class Node implements LinkedListNode {
     private Node previus;
     
     public Node(Object object){
-        this.object = object;
+        if(object!=null){
+            this.object = object; 
+        }else{
+            this.object = ""; 
+        } 
         next = null;
-        previus = null; 
+        previus = null;
     }
     
     public Node(Object object, Node node){
-        this.object = object;
+       
+        if(object!=null){
+            this.object = object; 
+        }else{
+            this.object = ""; 
+        } 
         next = node;
-        previus = null; 
+        previus = null;
     }
     
     public String toString(){
