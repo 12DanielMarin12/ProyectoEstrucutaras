@@ -415,6 +415,11 @@ public class ListaSimple implements LinkedList{
     public void setSize(int size) {
         this.size = size;
     }
+
+    @Override
+    public String toStringReverse() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
     

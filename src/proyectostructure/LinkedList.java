@@ -194,4 +194,18 @@ public interface LinkedList {
      */
     String toString();
 
+    //METODOS AGREGADOS PARA LA LISTA DOBLE
+    
+    /***
+     * retorna un string con el contenido del nodo invertido
+     * @return
+     */
+    String toStringReverse();
+    
+    Node getHead();
+    void setHead(Node nodo);
+    Node getTail();
+    void setTail(Node nodo);
+    int getSize();
+    void setSize(int i);
 }
