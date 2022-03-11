@@ -1,0 +1,56 @@
+ 
+package proyectostructure;
+
+ 
+public class Node implements LinkedListNode {
+    private Object object;
+    private Node next;
+    private Node previus;
+    
+    public Node(Object object){
+        this.object = object;
+        next = null;
+        previus = null; 
+    }
+    
+    public Node(Object object, Node node){
+        this.object = object;
+        next = node;
+        previus = null; 
+    }
+    
+    public String toString(){
+        return "Object: " + getObject() + "    ";
+    }
+
+    public Object getObject() {
+        return object;
+    }
+
+    @Override
+    public void setObject(Object object) {
+        this.object = object;
+    }
+
+    public Node getNext() {
+        return next;
+    }
+
+    public void setNext(Node next) {
+        this.next = next;
+    }
+
+    public Node getPrevius() {
+        return previus;
+    }
+
+    public void setPrevius(Node previus) {
+        this.previus = previus;
+    }
+
+     
+    
+    
+    
+    
+}
