@@ -1,24 +1,24 @@
 
 package proyectostructure;
-
-public class ListaDobleCircular implements LinkedList{
-     private Node head;
-    private Node tail;
+ 
+public class Pila implements LinkedList{
+   private Node head;
+    private Node tail = null;
     private int size;
     
-    public ListaDobleCircular(){
+    public Pila(){
         this.head = null;
         this.tail = null;
         this.size = 0;
     }
     
-    public ListaDobleCircular(Object object){
-        this.head = new Node(object) ;
+    public Pila(Object object){
+        this.head = new Node(object) ; 
         this.tail = head;
         this.size = 1;
     }
     
-    public ListaDobleCircular(Node node){
+    public Pila(Node node){
         this.head = node;
         this.tail = head;
         this.size = 1;
@@ -29,16 +29,13 @@ public class ListaDobleCircular implements LinkedList{
     public boolean add(Object object) {
         Node n =  new Node(object) ;
         if(isEmpty()){
-            this.head = n;
-            this.tail = head;
+            this.head = n; 
+            this.tail = null;
             this.size = 1;
             return true;
         }else{
-            tail.setNext(n);
-            n.setPrevius(tail);
-            tail = n;
-            tail.setNext(head);
-            head.setPrevius(tail);
+            n.setNext(head);
+            head = n;
             size++;
             return true;
         }
@@ -50,34 +47,22 @@ public class ListaDobleCircular implements LinkedList{
             if(isEmpty()){
                return false;
             }else{
-                Node n = new Node(object);
                 Node current = head;
                 if(current.getObject()==node.getObject()){
-                    n.setNext(current.getNext());
-                    n.setPrevius(current);
-                     current.getNext().setPrevius(n);
-                     current.setNext(n);
-                    head.setPrevius(tail);
-                    tail.setNext(head);
+                    current.setNext(new Node(object, current.getNext()));
                     size++;
                     return true;
                 }else{
-                    for(int i=0 ; i<getSize() ; i++){
+                    while(current!=null){
                         current = current.getNext();
                         if(current.getObject()==node.getObject()){
                             if(current==tail){
-                                tail.setNext(n);
-                                n.setPrevius(tail);
-                                tail = n;
-                                tail.setNext(head);
-                                head.setPrevius(tail);
+                                current.setNext(new Node(object));
+                                tail = current.getNext();
                                 size++;
                                 return true;
                             }else{
-                                n.setNext(current.getNext());
-                                n.setPrevius(current); 
-                                current.getNext().setPrevius(n);
-                                current.setNext(n); 
+                                current.setNext(new Node(object, current.getNext()));
                                 size++;
                                 return true;
                             }
@@ -85,6 +70,7 @@ public class ListaDobleCircular implements LinkedList{
                     }
                 }
                 return false;
+
             }
         } catch (Exception e) {
             return false;
@@ -103,10 +89,7 @@ public class ListaDobleCircular implements LinkedList{
 
     @Override
     public boolean addFirst(Object object) {
-        Node n = new Node(object);
-        n.setNext(head);
-        head.setPrevius(n);
-        head = n;
+        head = new Node(object, head);
         size++;
         return true;
     }
@@ -114,25 +97,25 @@ public class ListaDobleCircular implements LinkedList{
     @Override
     public boolean addLast(Object object)  {
         Node n = new Node(object);
-        tail.setNext(n);
-        n.setPrevius(tail);
-        tail = n;
-        size++;
+        Node current = head;
+        while(current.getNext()!=null){ 
+            current = current.getNext();
+        }
+        current.setNext(n);
+        
         return true;
     }
 
     @Override
     public void clear() {
         head = null;
-        tail = null;
         size = 0;
     }
 
     @Override
     public LinkedList clone() {
-        LinkedList n = new ListaDobleCircular();
-        n.setHead(head);
-        n.setTail(tail);
+        Pila n = new Pila();
+        n.setHead(head); 
         n.setSize(size);
         return n;
     }
@@ -143,7 +126,7 @@ public class ListaDobleCircular implements LinkedList{
             return false;
         }else{
             Node current = head;
-            for(int i=0 ; i<getSize() ; i++){
+            while(current!=null){
                 if(current.getObject()==object){
                     return true;
                 }
@@ -160,12 +143,11 @@ public class ListaDobleCircular implements LinkedList{
 
     @Override
     public LinkedListNode nodeOf(Object object) {
-        try {
-            if(isEmpty()){
+        if(isEmpty()){
             return null;
         }else{
             LinkedListNode current = head;
-            for(int i=0 ; i<getSize() ; i++){
+            while(current!=null){
                 if(current.getObject()==object){
                     return current;
                 }
@@ -173,9 +155,6 @@ public class ListaDobleCircular implements LinkedList{
             }
         }
         return null;
-        } catch (Exception e) {
-            return null;
-        }
     }
 
     @Override
@@ -184,7 +163,7 @@ public class ListaDobleCircular implements LinkedList{
             return false;
         }else{
             Node current = head;
-            for(int i=0 ; i<getSize() ; i++){
+            while(current!=null){
                 if(current.getObject().getClass()==object.getClass()){
                     return true;
                 }
@@ -209,10 +188,10 @@ public class ListaDobleCircular implements LinkedList{
         try {
             int c = 0;
         if(isEmpty()){
-            return false;
+            return null;
         }else{
             Node current = head;
-           for(int i=0 ; i<getSize() ; i++){ 
+            while(current!=null){ 
                 if(node.getObject()==current.getObject()){
                     return c;
                 }
@@ -227,21 +206,24 @@ public class ListaDobleCircular implements LinkedList{
     }
 
     @Override
-    public Object getPrevious(LinkedListNode node)  {
+    public Object getPrevious(LinkedListNode node) {
         try {
             if(isEmpty()){
-            return false;
+            return null;
         }else{
             Node current = head;
-            for(int i=0 ; i<getSize() ; i++){
-                if(current.getObject()==node.getObject()){
-                    return current.getPrevius();
+            if(node.getObject()==current.getObject()){
+                return null;
+            }else{
+                while(current.getNext()!=null){
+                    if(current.getNext().getObject()==node.getObject()){
+                        return current;
+                    }
+                    current = current.getNext();
                 }
-                current = current.getNext();
-                
             }
         }
-        return false;
+        return null;
         } catch (Exception e) {
             return false;
         }
@@ -251,17 +233,21 @@ public class ListaDobleCircular implements LinkedList{
     public Object getNext(LinkedListNode node) {
         try {
             if(isEmpty()){
-            return false;
+            return null;
         }else{
-            Node current = head; 
-            for(int i=0 ; i<getSize() ; i++){
-                if(current.getObject()==node.getObject()){
-                    return current.getNext();
+            Node current = head;
+            if(node.getObject()==current.getObject()){
+                return current.getNext();
+            }else{
+                while(current!=null){
+                    if(current.getObject()==node.getObject()){
+                        return current.getNext();
+                    }
+                    current = current.getNext();
                 }
-                current = current.getNext();
             }
         }
-        return false;
+        return null;
         } catch (Exception e) {
             return false;
         }
@@ -281,35 +267,12 @@ public class ListaDobleCircular implements LinkedList{
     public boolean remove(Object object) {
         try {
             if(isEmpty()){
-            return false;
-        }else{
-            Node current = head;
-            if(current.getObject()==object){
+                return false;
+            }else{
                 head = head.getNext();
-                head.setPrevius(tail);
-                tail.setNext(head);
                 size--;
                 return true;
             }
-            for(int i=0 ; i<getSize() ; i++){
-                current = current.getNext();
-                if(current.getObject()==object){
-                    if(current==tail){
-                        
-                        tail = current.getPrevius();
-                        tail.setNext(head); 
-                        size--;
-                        return true;
-                    }else{
-                        current.getPrevius().setNext(current.getNext()); 
-                        current.getNext().setPrevius(current.getPrevius());
-                        size--;
-                        return true;
-                    }
-                } 
-            }
-        }
-        return false;
         } catch (Exception e) {
             return false;
         }
@@ -317,39 +280,12 @@ public class ListaDobleCircular implements LinkedList{
 
     @Override
     public boolean remove(LinkedListNode node) {
-        try {
-            if(isEmpty()){
+        if(isEmpty()){
             return false;
         }else{
-            Node current = head;
-            if(current.getObject()==node.getObject()){
-                head = head.getNext();
-                head.setPrevius(tail);
-                tail.setNext(head);
-                size--;
-                return true;
-            }
-            for(int i=0 ; i<getSize()-1 ; i++){
-                current = current.getNext(); 
-                if(current.getObject()==node.getObject()){ 
-                    if(current==tail){
-                        tail = current.getPrevius();
-                        tail.setNext(head); 
-                        size--;
-                        return true;
-                    }else{
-                        current.getPrevius().setNext(current.getNext()); 
-                        current.getNext().setPrevius(current.getPrevius());
-                        size--;
-                        return true;
-                    }
-                } 
-            }
+           head = head.getNext();
         }
         return false;
-        } catch (Exception e) {
-            return false;
-        }
     }
 
     @Override
@@ -359,8 +295,7 @@ public class ListaDobleCircular implements LinkedList{
                return false;
             }else{
                 Node current = head;
-                int c = getSize();
-                for(int i=0 ; i<c ; i++){ 
+                while(current!=null){ 
                     if(current.getObject()==objects){
                         remove(current);
                     }
@@ -373,15 +308,14 @@ public class ListaDobleCircular implements LinkedList{
         }
     }
 
-    @Override
+    @Override 
     public boolean retainAll(Object objects) {
         try {
             if(isEmpty()){
                return false;
             }else{
                 Node current = head;
-                int c = getSize();
-                for(int i=0 ; i<c ; i++){ 
+                while(current!=null){ 
                     if(current.getObject()!=objects){
                         remove(current);
                         
@@ -403,7 +337,7 @@ public class ListaDobleCircular implements LinkedList{
         }else{
             Node current = head;
             while(current!=null){
-                if(current.getObject()==node.getObject()){
+                if(current==node){
                     current.setObject(object);
                     return true;
                 }
@@ -426,24 +360,24 @@ public class ListaDobleCircular implements LinkedList{
         try {
             if(isEmpty()){
             return null;
-            } 
-            if(contains(from.getObject()) && contains(to.getObject())){ 
-                Node current = head; 
-                for(int i=0 ; i<getSize() ; i++){ 
-                    if(current.getObject()==from.getObject()){ 
-                        LinkedList n = new ListaDobleCircular();
-                        while(current!=to){
-                            System.out.println("...");
-                            n.add(current.getObject());
-                            current = current.getNext();
-                        }
+        } 
+        if(contains(from.getObject()) && contains(to.getObject())){ 
+            Node current = head; 
+            while(current!=null){ 
+                if(current.getObject()==from.getObject()){ 
+                    LinkedList n = new Pila();
+                    while(current!=to){
+                        System.out.println("...");
                         n.add(current.getObject());
-                        return n;
+                        current = current.getNext();
                     }
-                    current = current.getNext();
+                    n.add(current.getObject());
+                    return n;
                 }
+                current = current.getNext();
             }
-            return null;
+        }
+        return null;
         } catch (Exception e) {
             return null;
         }
@@ -463,70 +397,75 @@ public class ListaDobleCircular implements LinkedList{
     }
 
     @Override
-    public LinkedList sort() { 
-        LinkedList n = new ListaDobleCircular(); 
-        Node current = tail;
-        for(int i=0 ; i<getSize() ; i++){
-            n.add(current.getObject());
-            current = current.getPrevius();
+    public LinkedList sort() {
+        Object[] k = toArray(); 
+        LinkedList n = new Pila();
+        
+        for(int i=size-1 ; i>0 ; i--){
+            n.add(k[i]);
         }
         return n;
     }
-    
+    @Override
     public String toString(){
+        try {
         Node current = head;
         String lista = "";
         
-        for(int i=0 ; i<getSize() ; i++){
+        while(current!=null){
             lista += current.toString();
             current = current.getNext();
         }
         return lista;
+        } catch (Exception e) {
+            return "algo salio mal";
+        }
     }
 
-    public String toStringReverse(){
-        Node current = tail;
-        String lista = "";
-        
-        for(int i=0 ; i<getSize() ; i++){
-            lista += current.toString();
-            current = current.getPrevius();
-        }
-        return lista;
-    }
-  
+    @Override
     public Node getHead() {
         return head;
     }
 
+    @Override
     public void setHead(Node head) {
         this.head = head;
     }
 
+    @Override
     public Node getTail() {
         return tail;
     }
 
+    @Override
     public void setTail(Node tail) {
         this.tail = tail;
     }
 
+    @Override
     public int getSize() {
         return size;
     }
 
+    @Override
     public void setSize(int size) {
         this.size = size;
     }
 
-    @Override
-    public Node peek() {
+    @Override//no es para esta lista
+    public String toStringReverse() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
     @Override
-    public Node pop() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Node peek(){
+        return head;
     }
+    @Override
+    public Node pop(){
+        Node cu = head;
+        head = head.getNext();
+        return cu;
+    }
+    
     
 }

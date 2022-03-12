@@ -208,4 +208,11 @@ public interface LinkedList {
     void setTail(Node nodo);
     int getSize();
     void setSize(int i);
+    
+    
+    
+    //METODOS AGREGADOR PARA LA PILA
+    Node peek();
+    
+    Node pop();
 }

@@ -13,7 +13,7 @@ public class ListaSimple implements LinkedList{
     }
     
     public ListaSimple(Object object){
-        this.head = new Node(object) ;
+        this.head = new Node(object) ; 
         this.tail = head;
         this.size = 1;
     }
@@ -476,6 +476,16 @@ public class ListaSimple implements LinkedList{
 
     @Override//no es para esta lista
     public String toStringReverse() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Node peek() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Node pop() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
