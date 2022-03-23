@@ -1,6 +1,9 @@
  
 package proyectostructure;
  
+import Interfaces.LinkedListNode;
+import Interfaces.LinkedList;
+
 public class ListaSimple implements LinkedList{
     private Node head;
     private Node tail;

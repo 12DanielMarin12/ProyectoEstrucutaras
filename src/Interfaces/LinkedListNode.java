@@ -1,4 +1,6 @@
-package proyectostructure;
+package Interfaces;
+
+import proyectostructure.Node;
 
 public interface LinkedListNode {
     

@@ -1,6 +1,8 @@
  
 package proyectostructure;
 
+import Interfaces.LinkedListNode;
+
  
 public class Node implements LinkedListNode {
     private Object object;
@@ -29,7 +31,7 @@ public class Node implements LinkedListNode {
     }
     
     public String toString(){
-        return "Object: " + getObject() + "    ";
+        return  getObject() + "    ";
     }
 
     public Object getObject() {
